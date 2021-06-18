@@ -2,6 +2,8 @@
 <head>
 <title> Vaccine Information of our district </title>
 <meta charset ="UTF-8"> 
+<script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"> </script>
+<script src="script.js"></script>
 <script>
 var baseUrl="https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=674&date=";
 var today = new Date();
@@ -60,5 +62,8 @@ function getDistrictData(sessions)
 </head>
 <body>
 <div id="vaccineInfo"> </div>
+    <button onclick="generatePDF()"text-align: center>Download Data in form of PDF</button>
+  
+
 </body>
 </html>
