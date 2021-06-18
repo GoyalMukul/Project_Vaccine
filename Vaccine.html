@@ -1,0 +1,64 @@
+<html>
+<head>
+<title> Vaccine Information of our district </title>
+<meta charset ="UTF-8"> 
+<script>
+var baseUrl="https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=674&date=";
+var today = new Date();
+var dd = today.getDate();
+
+var mm = today.getMonth()+1; 
+var yyyy = today.getFullYear();
+if(dd<10) 
+{
+    dd='0'+dd;
+} 
+
+if(mm<10) 
+{
+    mm='0'+mm;
+} 
+today = dd+'-'+mm+'-'+yyyy;
+console.log(today);
+console.log(baseUrl + today);
+function loadDistrictData(){
+var xhr= new XMLHttpRequest()
+xhr.open("Get",baseUrl + today,true);
+xhr.onreadystatechange= function(){
+if(xhr.readyState==4 && xhr.status==200){
+	var sessions=JSON.parse(xhr.responseText);
+	console.log('namegh--',xhr.responseText);
+	getDistrictData(sessions);
+	}
+	};
+	xhr.send();
+}
+function getDistrictData(sessions)
+{
+	var newSession=sessions;
+	console.log('name--',newSession);
+	console.log('newSession--',newSession.sessions.length);
+	//console.log(newSession.sessions.name);
+	//var para= '<p>name</p>';
+	var tblTop="<table><tr><th>Centre Name</th><th>Date of Slot</th><th>Available Capacity Dose 1</th><th>Age Limit</th><th>Vaccine Available</th></tr>";
+	var tblMain='';
+	for(var i=0;i<newSession.sessions.length;i++)
+	{
+		//console.log(newSession[0].name);
+		tblMain += "<tr><td>"+newSession.sessions[i].name+"</td><td>"+newSession.sessions[i].date+"</td><td>"+newSession.sessions[i].available_capacity_dose1+"</td><td>"+newSession.sessions[i].min_age_limit+"</td><td>"+newSession.sessions[i].vaccine+"</td></tr>";
+	}
+	var tblBottom='</table>'
+	var tbl=tblTop+tblMain+tblBottom;
+		
+	document.getElementById('vaccineInfo').innerHTML=tbl;
+}
+
+	window.onload=function(){
+		loadDistrictData();
+	}
+</script>
+</head>
+<body>
+<div id="vaccineInfo"> </div>
+</body>
+</html>
